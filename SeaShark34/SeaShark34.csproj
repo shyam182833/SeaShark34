@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="Helper\TFSActions.cs" />
+    <Compile Include="Pages\NewPageTemplate.cs" />
     <Compile Include="Pages\GoogleSearchPage.cs" />
     <Compile Include="Tests\GoogleSearchTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

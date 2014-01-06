@@ -9,7 +9,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace SimpleCSharpSelenium.Pages
 {
-    class GoogleSearchPage
+    class NewPageTemplate
     {
 
         #region Actions
@@ -27,7 +27,8 @@ namespace SimpleCSharpSelenium.Pages
 
         public void VerifyThisPageLoaded()
         {
-            Assert.IsTrue(true);
+            Assert.IsNotNull(SomeInput(),"Input Missing");
+            Assert.IsNotNull(SomeBtn(), "Button Missing");
         }
 
         #endregion

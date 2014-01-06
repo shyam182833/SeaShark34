@@ -7,8 +7,9 @@ namespace SimpleCSharpSelenium.Tests
     public class GoogleSearchTests
     {
         [TestMethod]
-        public void TestMethod1()
+        public void SayMyName()
         {
+
         }
     }
 }
