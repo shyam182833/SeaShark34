@@ -9,17 +9,16 @@ using OpenQA.Selenium.Support.UI;
 
 namespace SimpleCSharpSelenium.Pages
 {
-    class GoogleSearchPage
+    public class GoogleSearchPage
     {
-
+        public GoogleSearchPage()
+        {
+    }
         #region Actions
-        public void ClickSomething()
+     
+        public void InPutSearchStringAndPressEnter(string text)
         {
-            SomeBtn().Click();
-        }
-        public void InPutextInAField(string text)
-        {
-            SomeInput().SendKeys(text);
+            SearchInput().SendKeys(text + OpenQA.Selenium.Keys.Enter);
         }
         #endregion
 
@@ -27,20 +26,18 @@ namespace SimpleCSharpSelenium.Pages
 
         public void VerifyThisPageLoaded()
         {
-            Assert.IsTrue(true);
+            Assert.IsNotNull(SearchInput());
+     
         }
 
         #endregion
 
         #region Controls
-        private IWebElement SomeInput()
+        private IWebElement SearchInput()
         {
-            return null;
+            return TestRunner.Driver.FindElement(By.Name("q"));
         }
-        private IWebElement SomeBtn()
-        {
-            return null;
-        }
+      
         #endregion
     }
 }

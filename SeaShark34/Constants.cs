@@ -14,5 +14,13 @@ namespace SimpleCSharpSelenium
         public static string TFS_USER_NAME = null;
         public static string TFS_USER_PASSWORD = null;
         public static string TFS_DOMAIN = null; //remains null if using visualstudio.com
+
+        
+        public const int IMPLICIT_WAIT_DEFAULT = 10;
+
+        //Browsers
+        public static string CHROME = null;
+        public static string FIREFOX = null;
+        public static string IE = null; //remains null if using visualstudio.com
     }
 }
