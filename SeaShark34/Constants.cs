@@ -3,24 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace SimpleCSharpSelenium
 {
     static class Constants
     {
-        //TFS stuff this is the service account DO NOT ALTER
+        //////////CUSTOMIZE/////////////////////////
+        ///TFS stuff this is the service account
         public const string TFS_URL = null;  //  "https://???.visualstudio.com/DefaultCollection";
         public const string TFS_PROJECT_NAME = null;
         public static string TFS_USER_NAME = null;
         public static string TFS_USER_PASSWORD = null;
         public static string TFS_DOMAIN = null; //remains null if using visualstudio.com
-
+        //Sauce
+        public static object SAUCE_USER = null;
+        public static object SAUCE_ACCESS_KEY = null;
+        //////////CUSTOMIZE/////////////////////////
         
-        public const int IMPLICIT_WAIT_DEFAULT = 10;
+        //JSON
+        public static string DATA_DIRECTORY = Directory.GetCurrentDirectory() + @"\Data\";
+        public static bool USE_LOCAL = true; 
 
         //Browsers
-        public static string CHROME = null;
-        public static string FIREFOX = null;
-        public static string IE = null; //remains null if using visualstudio.com
+        public const int IMPLICIT_WAIT_DEFAULT = 10;
+      
+        
     }
 }

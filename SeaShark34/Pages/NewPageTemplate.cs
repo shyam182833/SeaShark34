@@ -5,7 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Interactions.Internal;
 
 namespace SimpleCSharpSelenium.Pages
 {
@@ -34,11 +39,11 @@ namespace SimpleCSharpSelenium.Pages
         #endregion
 
         #region Controls
-        private IWebElement SomeInput()
+        public IWebElement SomeInput()
         {
             return null;
         }
-        private IWebElement SomeBtn()
+        public IWebElement SomeBtn()
         {
             return null;
         }

@@ -26,10 +26,20 @@ namespace SimpleCSharpSelenium.Helper
             ITestCase TestCase = null;
             DataTable TestCaseParameters = null;
 
-            TfsTeamProjectCollection TeamProjectCollection
-                = new TfsTeamProjectCollection(new Uri(Constants.TFS_URL), new NetworkCredential(Constants.TFS_USER_NAME, Constants.TFS_USER_PASSWORD, Constants.TFS_DOMAIN));
+            NetworkCredential netCred = new NetworkCredential(
+              Constants.TFS_USER_NAME,
+              Constants.TFS_USER_PASSWORD);
+            BasicAuthCredential basicCred = new BasicAuthCredential(netCred);
+            TfsClientCredentials tfsCred = new TfsClientCredentials(basicCred);
+            tfsCred.AllowInteractive = false;
 
-            TestMgrService = TeamProjectCollection.GetService<ITestManagementService>();
+            TfsTeamProjectCollection teamProjectCollection = new TfsTeamProjectCollection(
+                new Uri(Constants.TFS_URL),
+                tfsCred);
+
+            teamProjectCollection.Authenticate();
+
+            TestMgrService = teamProjectCollection.GetService<ITestManagementService>();
             TestCase = TestMgrService.GetTeamProject(Constants.TFS_PROJECT_NAME).TestCases.Find(testCaseId);
 
             if (TestCase != null)
