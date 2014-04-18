@@ -10,7 +10,7 @@ namespace SimpleCSharpSelenium.Tests
         [TestMethod]
         public void TestJsonRead()
         {
-            var g = Helper.JsonHelper.LoadJsonTestTable(Constants.DATA_DIRECTORY + "TC1.json");
+            var g = Helper.JsonHelper.LoadJsonTable(Constants.DATA_DIRECTORY + "TC1.json");
             Assert.IsNotNull(g);
         }
         

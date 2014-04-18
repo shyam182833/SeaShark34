@@ -11,13 +11,14 @@ namespace SimpleCSharpSelenium.Tests
         [TestMethod]
         public void TC1()
         {
-            TestRunner.StartDriver(TestRunner.Browsers.Firefox, MethodBase.GetCurrentMethod().Name, 10);
-            List<Dictionary<string, string>> Iterations = TestRunner.SetupIterations(MethodBase.GetCurrentMethod().Name);
-            foreach(var i in Iterations)
+            TestRunner.EnvironmentSetup();
+            TestRunner.StartDriver(TestRunner.EnvironmentParameters["browser"], MethodBase.GetCurrentMethod().Name);
+            TestRunner.SetupIterations(MethodBase.GetCurrentMethod().Name);
+            foreach(var iteration in TestRunner.Parameters)
             { 
-            TestRunner.Driver.Navigate().GoToUrl(@"https://www.google.com");
+            TestRunner.Driver.Navigate().GoToUrl(TestRunner.EnvironmentParameters["url"]);
             TestRunner.GoogleSearchPage.VerifyThisPageLoaded();
-            TestRunner.GoogleSearchPage.InPutSearchStringAndPressEnter(i["term"]);
+            TestRunner.GoogleSearchPage.InPutSearchStringAndPressEnter(iteration["term"]);
             //todo
             //verify results page load
             //verify top result

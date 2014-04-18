@@ -23,11 +23,18 @@ namespace SimpleCSharpSelenium
         
         //JSON
         public static string DATA_DIRECTORY = Directory.GetCurrentDirectory() + @"\Data\";
+        public static string ENVIRONMENTSETTINGS = "EnvironmentSettings.json";
         public static bool USE_LOCAL = true; 
 
         //Browsers
         public const int IMPLICIT_WAIT_DEFAULT = 10;
+        public const string CHROMEDRIVERPATH = null;
+        public const string FIREFOX = "firefox";
+        public const string CHROME = "chrome";
+        public const string IE = "ie";
+        public const string SAUCE = "sauce";
       
         
     }
 }
+

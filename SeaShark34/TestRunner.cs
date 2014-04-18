@@ -18,7 +18,9 @@ namespace SimpleCSharpSelenium
     public static class TestRunner
     {
         public static IWebDriver Driver { get; set; }
-        public static Enum Browser { get; set; }
+        public static String Browser { get; set; }
+        public static Dictionary<string,string> EnvironmentParameters { get; set; }
+        public static List<Dictionary<string, string>> Parameters { get; set; }
         private static Pages.GoogleSearchPage googleSearchPage = null;
 
         public static Pages.GoogleSearchPage GoogleSearchPage
@@ -40,22 +42,22 @@ namespace SimpleCSharpSelenium
         /// </summary>
         /// <param name="browser">Testrunner Browsers Enum of options</param>
         /// <param name="implicitwaitsec">set or allow Constant as the default</param>
-        public static void StartDriver(Browsers browser, string testName, int implicitWaitSec = Constants.IMPLICIT_WAIT_DEFAULT)
+        public static void StartDriver(string browser, string testName, int implicitWaitSec = Constants.IMPLICIT_WAIT_DEFAULT)
         {
-            Browser = browser;
+            Browser = browser.ToLower();
 
-            switch (browser)
+            switch (Browser)
             {
-                case Browsers.Chrome:
+                case Constants.CHROME:
                     Driver = new ChromeDriver();//Constants._CROMEDRIVER
                     break;
-                case Browsers.Firefox:
+                case Constants.FIREFOX:
                     Driver = new FirefoxDriver();
                     break;
-                case Browsers.IE:
+                case Constants.IE:
                     Driver = new InternetExplorerDriver();//Constants._IEDRIVER
                     break;
-                case Browsers.SauceLabs:
+                case Constants.SAUCE:
                     DesiredCapabilities caps = DesiredCapabilities.Firefox();
                     caps.SetCapability(CapabilityType.Platform, "Windows 7");
                     caps.SetCapability(CapabilityType.Version, "27");
@@ -71,7 +73,7 @@ namespace SimpleCSharpSelenium
             Driver.Manage().Window.Maximize();
         }
         
-        public enum Browsers {Firefox,Chrome,IE,SauceLabs};
+        
 
 
         /// <summary>
@@ -81,17 +83,38 @@ namespace SimpleCSharpSelenium
         {
             if (Driver != null)
             {
-                //Driver.Close();
                 Driver.Quit();
                 Driver = null;
             }
         }
 
         #endregion
+        #region Environment Management
 
+        public static void EnvironmentSetup()
+        {
+             DataTable TestCaseParameters = new DataTable();
+            
+            if( Constants.USE_LOCAL == true)
+            {
+                TestCaseParameters = Helper.JsonHelper.LoadJsonTable(Constants.DATA_DIRECTORY + Constants.ENVIRONMENTSETTINGS).Tables[0];
+            } 
+            else //use TFS
+            {   
+                //todo
+                //TestCaseParameters = Helper.TFSActions.GetTestCaseParameters(Convert.ToInt32(testCaseId.Replace("TC","")));
+            }
+            if (TestCaseParameters.Rows.Count > 0)
+            {
+                EnvironmentParameters = FillParameters(TestCaseParameters.Rows[0]);
+            }
+
+        }
+
+        #endregion
         #region Iteration Management
 
-        public static List<Dictionary<string, string>> SetupIterations(string testCaseId)
+        public static void SetupIterations(string testCaseId)
         {
             List<Dictionary<string, string>> allParms = new List<Dictionary<string, string>>();
             //Get the test case parameters
@@ -100,7 +123,7 @@ namespace SimpleCSharpSelenium
             
             if( Constants.USE_LOCAL == true)
             {
-                TestCaseParameters = Helper.JsonHelper.LoadJsonTestTable(Constants.DATA_DIRECTORY + testCaseId + ".json").Tables[0];
+                TestCaseParameters = Helper.JsonHelper.LoadJsonTable(Constants.DATA_DIRECTORY + testCaseId + ".json").Tables[0];
             }
             else {TestCaseParameters = Helper.TFSActions.GetTestCaseParameters(Convert.ToInt32(testCaseId.Replace("TC","")));}
            
@@ -112,8 +135,9 @@ namespace SimpleCSharpSelenium
                 }
             }
 
-            return allParms;
+            Parameters = allParms;
         }
+        
         /// <summary>
         /// Create the list of parameters for each data row of test cases. 
         /// This list will have parameters from test cases as well as from test environment controller
