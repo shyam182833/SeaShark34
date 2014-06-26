@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Dynamic;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,7 @@ namespace SimpleCSharpSelenium.Pages
         {
             Actions action = new Actions(TestRunner.Driver);
             action.DoubleClick(SearchInput()).Build().Perform();
+            SearchInput().Clear();
             SearchInput().SendKeys(text + OpenQA.Selenium.Keys.Enter);
         }
         #endregion

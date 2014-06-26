@@ -12,6 +12,7 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Remote;
 using System.Configuration;
+using System.IO;
 
 namespace SimpleCSharpSelenium
 {
@@ -20,9 +21,13 @@ namespace SimpleCSharpSelenium
         public static IWebDriver Driver { get; set; }
         public static String Browser { get; set; }
         public static Dictionary<string,string> EnvironmentParameters { get; set; }
-        public static List<Dictionary<string, string>> Parameters { get; set; }
-        private static Pages.GoogleSearchPage googleSearchPage = null;
+        public static dynamic Parameters { get; set; }
 
+        #region Pages
+
+        private static Pages.GoogleSearchPage googleSearchPage = null;
+        private static Pages.GoogleSearchResults googleSearchResults = null;
+        
         public static Pages.GoogleSearchPage GoogleSearchPage
         {
             get
@@ -34,6 +39,19 @@ namespace SimpleCSharpSelenium
                 return googleSearchPage;
             }
         }
+        public static Pages.GoogleSearchResults GoogleSearchResults
+        {
+            get
+            {
+                if (googleSearchResults == null)
+                {
+                    googleSearchResults = new Pages.GoogleSearchResults();
+                }
+                return googleSearchResults;
+            }
+        } 
+
+        #endregion
         
         #region Driver Management
 
@@ -41,7 +59,7 @@ namespace SimpleCSharpSelenium
         /// Creates a new browser, sets the global implicit wait and maximizes the browser
         /// </summary>
         /// <param name="browser">Testrunner Browsers Enum of options</param>
-        /// <param name="implicitwaitsec">set or allow Constant as the default</param>
+        /// <param name="implicitwaitsec">set or allow Constant as the default in seconds</param>
         public static void StartDriver(string browser, string testName, int implicitWaitSec = Constants.IMPLICIT_WAIT_DEFAULT)
         {
             Browser = browser.ToLower();
@@ -49,23 +67,13 @@ namespace SimpleCSharpSelenium
             switch (Browser)
             {
                 case Constants.CHROME:
-                    Driver = new ChromeDriver();//Constants._CROMEDRIVER
+                    Driver = new ChromeDriver(Constants.CHROMEDRIVERPATH);
                     break;
                 case Constants.FIREFOX:
-                    Driver = new FirefoxDriver();
+                    Driver = new FirefoxDriver();  //expecting Firefox to be installed on the local machine in default location
                     break;
                 case Constants.IE:
-                    Driver = new InternetExplorerDriver();//Constants._IEDRIVER
-                    break;
-                case Constants.SAUCE:
-                    DesiredCapabilities caps = DesiredCapabilities.Firefox();
-                    caps.SetCapability(CapabilityType.Platform, "Windows 7");
-                    caps.SetCapability(CapabilityType.Version, "27");
-                    caps.SetCapability("name", testName);
-                    caps.SetCapability("username", Constants.SAUCE_USER);
-                    caps.SetCapability("accessKey", Constants.SAUCE_ACCESS_KEY);
-                    Driver = new RemoteWebDriver(
-                             new Uri("http://ondemand.saucelabs.com:80/wd/hub"), caps);
+                    Driver = new InternetExplorerDriver(Constants.IEDRIVERPATH);
                     break;
             }
 
@@ -89,55 +97,25 @@ namespace SimpleCSharpSelenium
         }
 
         #endregion
-        #region Environment Management
+        
+        #region Environment and Parameters Management
 
-        public static void EnvironmentSetup()
+        public static void EnvironmentSetup(string fileName)
         {
-             DataTable TestCaseParameters = new DataTable();
-            
-            if( Constants.USE_LOCAL == true)
-            {
-                TestCaseParameters = Helper.JsonHelper.LoadJsonTable(Constants.DATA_DIRECTORY + Constants.ENVIRONMENTSETTINGS).Tables[0];
-            } 
-            else //use TFS
-            {   
-                //todo
-                //TestCaseParameters = Helper.TFSActions.GetTestCaseParameters(Convert.ToInt32(testCaseId.Replace("TC","")));
-            }
-            if (TestCaseParameters.Rows.Count > 0)
-            {
-                EnvironmentParameters = FillParameters(TestCaseParameters.Rows[0]);
-            }
-
+            EnvironmentParameters = Helper.JsonHelper.LoadJsonDictionary(fileName);
         }
+
+        public static void ParametersSetup(string filename)
+        {
+            Parameters = Helper.JsonHelper.LoadJsonDynamic(filename);
+        }
+
 
         #endregion
-        #region Iteration Management
 
-        public static void SetupIterations(string testCaseId)
-        {
-            List<Dictionary<string, string>> allParms = new List<Dictionary<string, string>>();
-            //Get the test case parameters
-            //If test case has parameters then add controller test case parametrs in same row.
-            DataTable TestCaseParameters = new DataTable();
-            
-            if( Constants.USE_LOCAL == true)
-            {
-                TestCaseParameters = Helper.JsonHelper.LoadJsonTable(Constants.DATA_DIRECTORY + testCaseId + ".json").Tables[0];
-            }
-            else {TestCaseParameters = Helper.TFSActions.GetTestCaseParameters(Convert.ToInt32(testCaseId.Replace("TC","")));}
-           
-            if (TestCaseParameters.Rows.Count > 0)
-            {
-                foreach (DataRow row in TestCaseParameters.Rows)
-                {
-                    allParms.Add(FillParameters(row));
-                }
-            }
 
-            Parameters = allParms;
-        }
-        
+        #region TFS Tools
+
         /// <summary>
         /// Create the list of parameters for each data row of test cases. 
         /// This list will have parameters from test cases as well as from test environment controller
@@ -158,9 +136,11 @@ namespace SimpleCSharpSelenium
                 return null;
             }
 
-        } 
+        }  
 
         #endregion
+
+   
      
     }
 }

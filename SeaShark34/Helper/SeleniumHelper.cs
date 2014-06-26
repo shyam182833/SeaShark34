@@ -319,7 +319,7 @@ namespace SimpleCSharpSelenium.Helper
 
         //Developer: Ranjit P
         /// <summary>
-        /// Return text from a given control from a page
+        /// Run javascript
         /// </summary>
         /// <param name="jscriptToRun"></param>
         /// <param name="currentWindowHandle"></param>

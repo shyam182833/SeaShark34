@@ -9,26 +9,25 @@ namespace SimpleCSharpSelenium
 {
     static class Constants
     {
-        //////////CUSTOMIZE/////////////////////////
+        //////////CUSTOMIZE For TFS USE/////////////////////////
         ///TFS stuff this is the service account
         public const string TFS_URL = null;  //  "https://???.visualstudio.com/DefaultCollection";
         public const string TFS_PROJECT_NAME = null;
         public static string TFS_USER_NAME = null;
         public static string TFS_USER_PASSWORD = null;
         public static string TFS_DOMAIN = null; //remains null if using visualstudio.com
-        //Sauce
-        public static object SAUCE_USER = null;
-        public static object SAUCE_ACCESS_KEY = null;
         //////////CUSTOMIZE/////////////////////////
         
-        //JSON
-        public static string DATA_DIRECTORY = Directory.GetCurrentDirectory() + @"\Data\";
-        public static string ENVIRONMENTSETTINGS = "EnvironmentSettings.json";
-        public static bool USE_LOCAL = true; 
+        //Data
+        public static string DATADIRECTORY = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + @"\Data\";
+        public static string DATAFILEEXT = ".json";
+        public static string ENVIRONMENTSETTINGSFILENAME = "EnvironmentSettings.json";
+        public static string JSON_OUTPUT = @"C:\Data\wuty.json";
 
         //Browsers
         public const int IMPLICIT_WAIT_DEFAULT = 10;
         public const string CHROMEDRIVERPATH = null;
+        public const string IEDRIVERPATH = null;
         public const string FIREFOX = "firefox";
         public const string CHROME = "chrome";
         public const string IE = "ie";

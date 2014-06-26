@@ -12,43 +12,38 @@ using System.Data;
 
 namespace SimpleCSharpSelenium.Helper
 {
-    static class JsonHelper
+    public static class JsonHelper
     {
-        public static DataSet LoadJsonTable(string path)
-        {       
+        public static dynamic LoadJsonDynamic(string path)
+        {
             using (StreamReader r = new StreamReader(path))
             {
                 string json = r.ReadToEnd();
-                return  JsonConvert.DeserializeObject<DataSet>(json);
+                return JsonConvert.DeserializeObject<dynamic>(json);
+            }
+        }
+        
+        public static Dictionary<string,string> LoadJsonDictionary(string path)
+        {
+            using (StreamReader r = new StreamReader(path))
+            {
+                string json = r.ReadToEnd();
+                return JsonConvert.DeserializeObject<Dictionary<string,string>>(json);
             }
         }
 
+        public static void MakeJSON(object obj, string path)
+        {
+            
+            using (StreamWriter r = new StreamWriter(path))
+            {
+                r.Write(JsonConvert.SerializeObject(obj, Formatting.Indented));
+            }
+        }
 
-        //todo for sauce compatibility read json file into compatibilities object
-        //public static DesiredCapabilities LoadJsonDesiredCapabilities(string path)
-        //{
-        //    using (StreamReader r = new StreamReader(path))
-        //    {
-        //        string json = r.ReadToEnd();
-        //        return JsonConvert.DeserializeObject<DesiredCapabilities>(json);
-        //    }
-        //}
-
-        //public static void WriteJsonDesiredCapabilities(string path, DesiredCapabilities caps)
-        //{
-        //    Newtonsoft.Json.JsonSerializerSettings jss = new Newtonsoft.Json.JsonSerializerSettings();
-
-        //        Newtonsoft.Json.Serialization.DefaultContractResolver dcr = new Newtonsoft.Json.Serialization.DefaultContractResolver();
-        // dcr.
-        //    dcr.DefaultMembersSearchFlags |= System.Reflection.BindingFlags.NonPublic;
-        //        jss.ContractResolver = dcr;
-
-        //    using (StreamWriter r = new StreamWriter(path))
-        //    {
-        //        string json = JsonConvert.SerializeObject(caps, Formatting.Indented, jss);
-        //        r.Write(json);
-        //        r.Close();
-        //    }
-        //}
+        public static String GetStringValue(object node)
+        {
+            return Convert.ToString(node);
+        }
     }
 }

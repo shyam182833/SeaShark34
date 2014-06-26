@@ -1,8 +1,5 @@
 ﻿{
-    "Table0": 
-	[
-        {
-            "browser": "Firefox","url":"https://www.google.com"
-        }
-    ]
+    "browser": "Firefox",
+	"url":"https://www.google.com"
 }
+ 
