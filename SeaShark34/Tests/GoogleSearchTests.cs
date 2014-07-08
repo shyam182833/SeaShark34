@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Reflection;
 using System.Dynamic;
+using System.Linq;
 
 namespace SimpleCSharpSelenium.Tests
 {
@@ -22,15 +23,17 @@ namespace SimpleCSharpSelenium.Tests
             foreach (var term in TestRunner.Parameters.Terms)
             {
                 TestRunner.GoogleSearchPage.InPutSearchStringAndPressEnter(Convert.ToString(term.term));
-                //Use this when building tests if having issues to make sure you are identifying elements you want to!
                 TestRunner.GoogleSearchResults.VerifyThisPageLoaded();
+                //Use this when building tests if having issues to make sure you are identifying elements you want to!
                 Helper.SeleniumHelper.HighlightElement(TestRunner.GoogleSearchResults.BodySearchResultsDiv(), 5000);
                 var i = TestRunner.GoogleSearchResults.GetBodyResultsHref();
-                var q = TestRunner.GoogleSearchResults.GetAllResultsHref();
+                List<string> q = TestRunner.GoogleSearchResults.GetAllResultsHref();
                 Helper.JsonHelper.MakeJSON(q, Constants.JSON_OUTPUT);
                 var inn = Helper.JsonHelper.LoadJsonDynamic(Constants.JSON_OUTPUT);
+                List<string> mylist = Helper.JsonHelper.SimpleListFromDynamic(inn);
                 var top = TestRunner.GoogleSearchResults.TopCite();
-
+                List<string> result = q.Except(mylist).ToList();
+                Assert.AreEqual(q, mylist);
                 int hi = 0;
                 //verify top result
                 //scrape some data

@@ -45,5 +45,15 @@ namespace SimpleCSharpSelenium.Helper
         {
             return Convert.ToString(node);
         }
+
+        public static List<string> SimpleListFromDynamic(dynamic json)
+        {
+            List<string> mylist = new List<string>();
+            foreach(var n in json)
+            {
+                mylist.Add(n.ToString());
+            }
+            return mylist;
+        }
     }
 }
