@@ -55,5 +55,9 @@ namespace SimpleCSharpSelenium.Pages
         }
 
         #endregion
+       
+        #region Methods
+        
+        #endregion
     }
 }
