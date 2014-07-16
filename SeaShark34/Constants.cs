@@ -23,7 +23,7 @@ namespace SimpleCSharpSelenium
         public static string CURRENTDIRECTORY = Directory.GetCurrentDirectory();
         public static string DATAFILEEXT = ".json";
         public static string ENVIRONMENTSETTINGSFILENAME = "EnvironmentSettings.json";
-        public static string JSON_OUTPUT = @"C:\Data\wuty.json";
+        public static string JSON_OUTPUT = @"C:\???\???";
         public static string GOOGLEURL = @"https://google.com";
 
         //Browsers

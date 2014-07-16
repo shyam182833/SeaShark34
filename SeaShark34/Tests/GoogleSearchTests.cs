@@ -40,8 +40,8 @@ namespace SimpleCSharpSelenium.Tests
            
             
             //We have designed our test steps and the data to allow
-            //iteration without opening new browser instances
-            //we iterate through the search terms
+            //iteration without opening new browser instances.
+            //We iterate through the search terms
             foreach (var term in TestRunner.Parameters.Terms)
             {
                 //Navigate to the url being tested
@@ -50,15 +50,16 @@ namespace SimpleCSharpSelenium.Tests
                 TestRunner.GoogleSearchPage.VerifyThisPageLoaded();
                 //Grab the current search term into a variable since we will use it a couple times.
                 String searchTerm = Convert.ToString(term.term);
-                //Call our Method on the google search page that enters the search term and presses enter
+                //Call our Method on the Google search page that enters the search term and presses enter
                 TestRunner.GoogleSearchPage.InPutSearchStringAndPressEnter(searchTerm);
                 //Verify that search results page loaded
                 TestRunner.GoogleSearchResults.VerifyThisPageLoaded();
                 //Use this when building tests if having issues to make sure you are identifying elements you want to!
+                //Take out highlighting once test is built, not needed in test
                 Helper.SeleniumHelper.HighlightElement(TestRunner.GoogleSearchResults.BodySearchResultsDiv(), 5000);
                 //Use our method to get a list of all the search results hrefs as a list
                 List<string> actualResults = TestRunner.GoogleSearchResults.GetAllResultsHref();
-                //Construct the path to the output file
+                //Construct the path to the output file, C# string goodies inline
                 string outputFilePath = Constants.CURRENTDIRECTORY + @"\" + searchTerm.Trim().Replace(" ", string.Empty) + Constants.DATAFILEEXT;
                 //Use JSON helper to output a JSON file
                 Helper.JsonHelper.MakeJSON(actualResults, outputFilePath);
@@ -68,16 +69,17 @@ namespace SimpleCSharpSelenium.Tests
                 //that was read in as a dynamic
                 List<string> listFromFile = Helper.JsonHelper.SimpleListFromDynamic(inn);
                 //Compare the lists
-                //Assert.AreEqual() not very helpful in compareing lists so we made our own method
+                //Assert.AreEqual() not very helpful in compareing lists and ojects sometimes so make your own method
                 Assert.IsTrue(ListSame(listFromFile,actualResults));
 
             }
+            //remember that the [TestCleanup] method will run here.
         }
 
         [TestMethod]
         public void TC2()
         {
-
+            //Automate all the things!
         }
 
         #region TestInitialize, TestCleanup & Supporting methods

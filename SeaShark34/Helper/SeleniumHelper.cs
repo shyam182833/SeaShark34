@@ -282,7 +282,6 @@ namespace SimpleCSharpSelenium.Helper
             wait.Until(drv => drv.WindowHandles.Count == numberOfWindows);
         }
 
-        //Developer: Ranjit P
         /// <summary>
         /// Returns windows title text by given handle number.
         /// </summary>
@@ -301,8 +300,7 @@ namespace SimpleCSharpSelenium.Helper
             }
             return winTitle;
         }
-        
-        //Developer: Rohit C
+
         /// <summary>
         /// Returns the inner HTML for input element.
         /// </summary>
@@ -317,7 +315,6 @@ namespace SimpleCSharpSelenium.Helper
             return innerHTML.ToString();
         }
 
-        //Developer: Ranjit P
         /// <summary>
         /// Run javascript
         /// </summary>
