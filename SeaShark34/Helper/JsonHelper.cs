@@ -29,6 +29,21 @@ namespace SimpleCSharpSelenium.Helper
         }
         
         /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static T GetObjectData<T>(string path)
+        {
+            using (StreamReader r = new StreamReader(path))
+            {
+                string json = r.ReadToEnd();
+                return JsonConvert.DeserializeObject<T>(json);
+            }
+        }
+
+        /// <summary>
         /// Returns a Dictionary of a simple JSON file
         /// Use when you have JSON file of Key value pairs
         /// </summary>

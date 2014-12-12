@@ -1,0 +1,25 @@
+﻿{
+    "Users": [
+
+        {
+            "Description": "Josh the author",
+            "Active": "1",
+            "Username": "josh",
+            "Password": "1234",
+            "Role": "user"
+        },
+        {
+            "Description": "Jerry the jumper",
+            "Active": "0",
+            "Username": "jerry",
+            "Password": "1234",
+            "Role": "trial"
+        },
+        { 
+            "Description": "Julie the boss",
+            "Username": "julie",
+            "Password": "1234",
+            "Role": "admin"
+        }
+    ]
+}

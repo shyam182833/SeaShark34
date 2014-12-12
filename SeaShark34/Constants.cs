@@ -23,8 +23,13 @@ namespace SimpleCSharpSelenium
         public static string CURRENTDIRECTORY = Directory.GetCurrentDirectory();
         public static string DATAFILEEXT = ".json";
         public static string ENVIRONMENTSETTINGSFILENAME = "EnvironmentSettings.json";
+        public static string USERSETTINGSFILENAME = "UserSettings.json";
         public static string JSON_OUTPUT = @"C:\???\???";
         public static string GOOGLEURL = @"https://google.com";
+        public static string ACTIVE = "1";
+        public const string GOOGLE_TEST = "Google Tests";
+        public const string BUILD_VERIFICATION = "Run to Verify Build";
+        public const string UNIT_TESTS = "Unit Tests";
 
         //Browsers
         public const int IMPLICIT_WAIT_DEFAULT = 10;

@@ -1,5 +1,31 @@
 ﻿{
-    "browser": "Firefox",
-	"url":"https://www.google.com"
+    "Environments": [
+        {
+            "Description": "Prod",
+            "Active": "1",
+            "Browsers": [ "Firefox" ],
+            "Url": "https://www.google.com"
+        },
+
+        {
+            "Description": "QA",
+            "Active": "0",
+            "Browsers": [ "Chrome" ],
+            "Url": "https://www.google.com"
+        },
+
+        {
+            "Description": "Dev",
+            "Active": "0",
+            "Browsers": [ "IE" ],
+            "Url": "https://www.google.com"
+        },
+
+        {
+            "Description": "All browsers Prod",
+            "Active": "0",
+            "Browsers": [ "IE", "Chrome", "Firefox" ],
+            "Url": "https://www.google.com"
+        }
+    ]
 }
- 

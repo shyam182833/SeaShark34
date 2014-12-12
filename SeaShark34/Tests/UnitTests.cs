@@ -12,13 +12,18 @@ namespace SimpleCSharpSelenium.Tests
         //don't forget testers can make unit tests too!
         //test our helper, data reading and reporting support classes
         //tests are just an easy way to run code
-        [TestMethod]
+        [TestMethod(), TestCategory(Constants.UNIT_TESTS)]
         public void TestJsonRead()
         {
-            dynamic g = Helper.JsonHelper.LoadJsonDynamic(Constants.DATADIRECTORY +  "TC1.json");
-            Dictionary<string, string> f = Helper.JsonHelper.LoadJsonDictionary(Constants.DATADIRECTORY + Constants.ENVIRONMENTSETTINGSFILENAME);
-            Assert.AreEqual(1, 1); // garbage to put a breakpoint on
+
+            Dictionary<string, string> f = Helper.JsonHelper.LoadJsonDictionary(Constants.DATADIRECTORY + "DictionaryJSONExample.json");
+            var environments = Helper.JsonHelper.GetObjectData<Data.DataObjects.EnvironmentSettings>(Constants.DATADIRECTORY + Constants.ENVIRONMENTSETTINGSFILENAME);
+            var users = Helper.JsonHelper.GetObjectData<Data.DataObjects.UserSettings>(Constants.DATADIRECTORY + Constants.USERSETTINGSFILENAME);
+            var tc1Object = Helper.JsonHelper.GetObjectData<Data.DataObjects.TC1>(Constants.DATADIRECTORY + "TC1" + Constants.DATAFILEEXT);
+            dynamic tc1Dynamic = Helper.JsonHelper.LoadJsonDynamic(Constants.DATADIRECTORY + "TC1.json");
+            Assert.AreEqual(1,1);
         }
 
+        
     }
 }

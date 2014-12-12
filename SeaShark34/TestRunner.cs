@@ -19,9 +19,11 @@ namespace SimpleCSharpSelenium
     public static class TestRunner
     {
         public static IWebDriver Driver { get; set; }
-        public static String Browser { get; set; }
-        public static Dictionary<string,string> EnvironmentParameters { get; set; }
-        public static dynamic Parameters { get; set; }
+        public static Data.DataObjects.UserSettings UserSettings { get; set; }
+        public static Data.DataObjects.User ActiveUser { get; set; }
+        public static Data.DataObjects.EnvironmentSettings EnvironmentSettings { get; set; }
+        public static Data.DataObjects.Environment ActiveEnvironment { get; set; }
+        public static Object Parameters { get; set; }
 
         #region Pages
 
@@ -60,11 +62,9 @@ namespace SimpleCSharpSelenium
         /// </summary>
         /// <param name="browser">Testrunner Browsers Enum of options</param>
         /// <param name="implicitwaitsec">set or allow Constant as the default in seconds</param>
-        public static void StartDriver(string browser, string testName, int implicitWaitSec = Constants.IMPLICIT_WAIT_DEFAULT)
+        public static void StartDriver(string browser, int implicitWaitSec = Constants.IMPLICIT_WAIT_DEFAULT)
         {
-            Browser = browser.ToLower();
-
-            switch (Browser)
+            switch (browser.ToLower())
             {
                 case Constants.CHROME:
                     Driver = new ChromeDriver(Constants.CHROMEDRIVERPATH);
@@ -100,14 +100,39 @@ namespace SimpleCSharpSelenium
         
         #region Environment and Parameters Management
 
-        public static void EnvironmentSetup(string fileName)
+        public static void EnvironmentSetup(string path = null )
         {
-            EnvironmentParameters = Helper.JsonHelper.LoadJsonDictionary(fileName);
+           if(path == null)
+           {
+               EnvironmentSettings = Helper.JsonHelper.GetObjectData<Data.DataObjects.EnvironmentSettings>(
+                   Constants.DATADIRECTORY + Constants.ENVIRONMENTSETTINGSFILENAME);
+           }
+           else
+           {
+               EnvironmentSettings = Helper.JsonHelper.GetObjectData<Data.DataObjects.EnvironmentSettings>(path);
+           }
+           ActiveEnvironment = EnvironmentSettings.Environments.FirstOrDefault(a => a.Active == Constants.ACTIVE);
+ 
         }
 
-        public static void ParametersSetup(string filename)
+        public static void UserSetup(string path = null)
         {
-            Parameters = Helper.JsonHelper.LoadJsonDynamic(filename);
+            if (path == null)
+            {
+                UserSettings = Helper.JsonHelper.GetObjectData<Data.DataObjects.UserSettings>(
+                    Constants.DATADIRECTORY + Constants.USERSETTINGSFILENAME);
+            }
+            else
+            {
+               UserSettings = Helper.JsonHelper.GetObjectData<Data.DataObjects.UserSettings>(path);
+            }
+            ActiveUser = UserSettings.Users.FirstOrDefault(a => a.Active == Constants.ACTIVE);
+
+        }
+
+        public static void ParametersSetup<T>(string filename)
+        {
+            Parameters = Helper.JsonHelper.GetObjectData<T>(filename);
         }
 
 
