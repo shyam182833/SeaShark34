@@ -23,7 +23,8 @@ namespace SimpleCSharpSelenium.Tests
             //Verify search page is where we are at!
             TestRunner.GoogleSearchPage.VerifyThisPageLoaded();
             //Highlight the input box because it is cool and useful
-            Helper.SeleniumHelper.HighlightElement(TestRunner.GoogleSearchPage.SearchInput(), 10000);
+            // Firefox 35 issue https://code.google.com/p/selenium/issues/detail?id=8387 2/4/2015
+            //Helper.SeleniumHelper.HighlightElement(TestRunner.GoogleSearchPage.SearchInput(), 10000);
             //Test cleanup will run and kill the driver
         }
 
@@ -59,7 +60,8 @@ namespace SimpleCSharpSelenium.Tests
                     TestRunner.GoogleSearchResults.VerifyThisPageLoaded();
                     //Use this when building tests if having issues to make sure you are identifying elements you want to!
                     //Take out highlighting once test is built, not needed in test
-                    Helper.SeleniumHelper.HighlightElement(TestRunner.GoogleSearchResults.BodySearchResultsDiv(), 5000);
+                    // Firefox 35 issue https://code.google.com/p/selenium/issues/detail?id=8387 2/4/2015
+                    //Helper.SeleniumHelper.HighlightElement(TestRunner.GoogleSearchResults.BodySearchResultsDiv(), 5000);
                     //Use our method to get a list of all the search results hrefs as a list
                     List<string> actualResults = TestRunner.GoogleSearchResults.GetAllResultsHref();
                     //Construct the path to the output file, C# string goodies inline
